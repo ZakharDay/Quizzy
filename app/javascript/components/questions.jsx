@@ -1,4 +1,4 @@
-export const cinemaQuestions = [
+export const questions = [
   {
     id: 0,
     question: `Режиссёр фильма Таксист`,
@@ -12,9 +12,9 @@ export const cinemaQuestions = [
     answer: `Дженнифер Лоуренс`
   },
   {
-    id: 3,
+    id: 2,
     question: `Какой фильм из перечисленных не является фильмом Marvel?`,
     options: [`Человек-молния`, `Человек-паук`, `Железный человек`],
     answer: `Человек-молния`
   }
-];
+]

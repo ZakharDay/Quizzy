@@ -10,13 +10,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_05_18_205412) do
+ActiveRecord::Schema.define(version: 2020_05_29_185130) do
 
   create_table "questions", force: :cascade do |t|
     t.string "option"
     t.string "answer"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
+    t.string "theme_name"
+    t.string "question_text"
   end
 
   create_table "themes", force: :cascade do |t|

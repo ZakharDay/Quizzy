@@ -1,4 +1,4 @@
-class ThemesController < ApplicationController
+class Api::ThemesController < Api::ApplicationController
   before_action :set_theme, only: [:show, :edit, :update, :destroy]
 
   # GET /themes
