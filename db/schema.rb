@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_06_07_194459) do
+ActiveRecord::Schema.define(version: 2020_06_09_084801) do
 
   create_table "questions", force: :cascade do |t|
     t.string "option"
@@ -20,6 +20,13 @@ ActiveRecord::Schema.define(version: 2020_06_07_194459) do
     t.string "theme_name"
     t.string "question_text"
     t.string "guest_uuid"
+  end
+
+  create_table "questions_users", force: :cascade do |t|
+    t.integer "user_id"
+    t.integer "question_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
   end
 
   create_table "themes", force: :cascade do |t|

@@ -3,6 +3,7 @@ import React from 'react'
 export default class Lap extends React.Component {
   constructor(props) {
     super(props)
+
     this.state = {
       currentQuestion: 0,
       myAnswer: null,
@@ -25,10 +26,10 @@ export default class Lap extends React.Component {
   componentDidUpdate(prevProps, prevState) {
     if (this.state.currentQuestion !== prevState.currentQuestion) {
       fetch(`http://localhost:3000/api/questions/random.json`)
-        .then(response => {
+        .then((response) => {
           return response.json()
         })
-        .then(data => {
+        .then((data) => {
           console.log(data)
           let { question_text, answer, option } = data
           this.setState({
@@ -53,10 +54,10 @@ export default class Lap extends React.Component {
 
   loadQuestion() {
     fetch(`http://localhost:3000/api/questions/random.json`)
-      .then(response => {
+      .then((response) => {
         return response.json()
       })
-      .then(data => {
+      .then((data) => {
         console.log(data)
         let { question_text, answer, option, theme_name } = data
         this.setState({
@@ -105,7 +106,7 @@ export default class Lap extends React.Component {
     let elements = []
 
     if (Array.isArray(options)) {
-      options.forEach(option => {
+      options.forEach((option) => {
         elements.push(
           <p
             key={option.id}

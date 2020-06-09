@@ -4,6 +4,8 @@ class ApplicationController < ActionController::Base
   def set_user
     # Проверить есть ли у гостя уже идентификатор
     guest_uuid = cookies[:guest_uuid]
+    puts "=========== GUEST UUID ==========="
+    puts guest_uuid
 
     # ЕСЛИ ЕСТЬ ТО
     if guest_uuid
@@ -20,4 +22,5 @@ class ApplicationController < ActionController::Base
       @user = User.create!(guest_uuid: uuid)
     end
   end
+  
 end

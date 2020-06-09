@@ -5,28 +5,7 @@ import { ActionCableProvider } from 'react-actioncable-provider'
 
 import Lap from '../components/Lap'
 
-function callServer(id) {
-  console.log('hello', id)
-  fetch(`http://localhost:3000/api/questions/${id}.json`)
-    .then(response => {
-      return response.json()
-    })
-    .then(data => {
-      console.log(data)
-    })
-}
-
-const Question = props => {
-  console.log(props)
-
-  return (
-    <div>
-      <div onClick={() => callServer(props.id)}>{props.question_text}</div>
-    </div>
-  )
-}
-
-const App = props => {
+const App = (props) => {
   // let questionElements = props.questions.map(function(question, i) {
   //   return <Question {...question} key={i} />
   // })

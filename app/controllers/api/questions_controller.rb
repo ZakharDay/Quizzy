@@ -1,4 +1,5 @@
 class Api::QuestionsController < Api::ApplicationController
+  before_action :get_user, only: :random
   # before_action :set_question, only: [:show, :edit, :update, :destroy]
 
   # GET /questions
@@ -22,8 +23,11 @@ class Api::QuestionsController < Api::ApplicationController
   end
 
   def random
-    question = Question.all.sample
-    puts question.to_json
+    answered_questions_ids = @user.questions.collect { |q| q.id }
+    questions = Question.all.reject { |q| answered_questions_ids.include?(q.id) }
+    question = questions.sample
+    QuestionsUsers.create!(user_id: @user.id, question_id: question.id)
+
     render json: question.as_json_for_rack
   end
 
@@ -85,5 +89,10 @@ class Api::QuestionsController < Api::ApplicationController
     # Only allow a list of trusted parameters through.
     def question_params
       params.require(:question).permit(:option, :answer)
+    end
+
+    def get_user
+      guest_uuid = cookies[:guest_uuid]
+      @user = User.where(guest_uuid: guest_uuid).last
     end
 end
