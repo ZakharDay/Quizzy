@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :users
   namespace :api, format: :json do
     resources :questions do
       collection do
@@ -8,6 +9,8 @@ Rails.application.routes.draw do
     resources :themes
     get 'room/index'
   end
+
+  mount ActionCable.server => '/cable'
 
   get 'welcome/index'
   get 'room/index'

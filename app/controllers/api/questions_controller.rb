@@ -23,7 +23,7 @@ class Api::QuestionsController < Api::ApplicationController
 
   def random
     question = Question.all.sample
-    puts question
+    puts question.to_json
     render json: question.as_json_for_rack
   end
 

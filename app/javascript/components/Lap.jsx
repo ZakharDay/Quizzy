@@ -1,5 +1,4 @@
 import React from 'react'
-import { questions } from './questions'
 
 export default class Lap extends React.Component {
   constructor(props) {
@@ -19,6 +18,39 @@ export default class Lap extends React.Component {
     this.finishHandler = this.finishHandler.bind(this)
   }
 
+  componentDidMount() {
+    this.loadQuestion()
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.currentQuestion !== prevState.currentQuestion) {
+      fetch(`http://localhost:3000/api/questions/random.json`)
+        .then(response => {
+          return response.json()
+        })
+        .then(data => {
+          console.log(data)
+          let { question_text, answer, option } = data
+          this.setState({
+            disabled: true,
+            questions: question_text,
+            answer,
+            options: JSON.parse(option)
+          })
+        })
+    }
+  }
+
+  // generateId() {
+  //   let array = new Uint32Array(8)
+  //   window.crypto.getRandomValues(array)
+  //   let str = ''
+  //   for (let i = 0; i < array.length; i++) {
+  //     str += (i < 2 || i > 5 ? '' : '-') + array[i].toString(16).slice(-4)
+  //   }
+  //   return str
+  // }
+
   loadQuestion() {
     fetch(`http://localhost:3000/api/questions/random.json`)
       .then(response => {
@@ -26,19 +58,16 @@ export default class Lap extends React.Component {
       })
       .then(data => {
         console.log(data)
-        let { question_text, answer, option } = data
+        let { question_text, answer, option, theme_name } = data
         this.setState({
           questions: question_text,
           answer,
-          options: JSON.parse(option)
+          options: JSON.parse(option),
+          theme: theme_name
         })
       })
 
-    console.log(questions[0].question)
-  }
-
-  componentDidMount() {
-    this.loadQuestion()
+    // console.log(questions[0].question)
   }
 
   nextQuestionHandler() {
@@ -57,30 +86,18 @@ export default class Lap extends React.Component {
     console.log(this.state.currentQuestion)
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    if (this.state.currentQuestion !== prevState.currentQuestion) {
-      this.setState(() => {
-        return {
-          disabled: true,
-          questions: questions[this.state.currentQuestion].question,
-          options: questions[this.state.currentQuestion].options,
-          answer: questions[this.state.currentQuestion].answer
-        }
-      })
-    }
-  }
-
   //check answer
   checkAnswer(answer) {
     this.setState({ myAnswer: answer, disabled: false })
   }
 
   finishHandler() {
-    if (this.state.currentQuestion === questions.length - 1) {
+    if (this.state.currentQuestion === 4) {
       this.setState({
         isEnd: true
       })
     }
+    // console.log(this.state.questions.length)
   }
 
   renderOptions() {
@@ -104,7 +121,7 @@ export default class Lap extends React.Component {
     } else {
       elements.push(
         <p
-          key={options.id}
+          /* key={options.id} */
           className={`
    ${myAnswer === options ? 'selected' : null}
    `}
@@ -119,41 +136,41 @@ export default class Lap extends React.Component {
   }
 
   render() {
-    const { options, myAnswer, currentQuestion, isEnd } = this.state
+    const { option, myAnswer, currentQuestion, isEnd } = this.state
 
     if (isEnd) {
       return (
         <div className="result">
           <h3>
-            Игра закончена, количество набранных очков: {this.state.score + 1}{' '}
+            Игра закончена, количество набранных очков: {this.state.score}{' '}
           </h3>
-          <p>
-            Правильные ответы:
-            <ul>
-              {questions.map((item, index) => (
-                <li key={index}>{item.answer}</li>
-              ))}
-            </ul>
-          </p>
         </div>
       )
     } else {
       return (
         <div className="App">
-          <h1>{this.state.questions} </h1>
-          <span>{`Пройдено ${currentQuestion}  из ${questions.length} вопросов `}</span>
+          <h2>{/* //this.state.theme */}</h2>
+          <h1>{this.state.questions}</h1>
+          <span className="Counter">{`Пройдено ${currentQuestion}  из ${5} вопросов `}</span>
           {this.renderOptions()}
-          {currentQuestion < questions.length - 1 && (
+          {currentQuestion < 4 && (
             <button
+              className="NextQuestion_button"
               disabled={this.state.disabled}
               onClick={this.nextQuestionHandler}
             >
               Следующий вопрос
             </button>
           )}
-          {/* //adding a finish button */}
-          {currentQuestion === questions.length - 1 && (
-            <button onClick={this.finishHandler}>Завершить</button>
+          {/* //добавить кнопку финиша */}
+          {currentQuestion === 4 && (
+            <button
+              className="End_button"
+              disabled={this.state.disabled}
+              onClick={this.finishHandler}
+            >
+              Завершить
+            </button>
           )}
         </div>
       )

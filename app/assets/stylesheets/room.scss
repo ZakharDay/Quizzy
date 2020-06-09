@@ -1,3 +1,43 @@
 // Place all the styles related to the room controller here.
 // They will automatically be included in application.css.
 // You can use Sass (SCSS) here: https://sass-lang.com/
+
+.App {
+  background-color: #dae0f2;
+  color: #363b3e;
+  margin: 0 100px;
+  padding: 30px;
+  border-radius: 20px;
+  text-align: center;
+
+  h1 {
+    line-height: 30px;
+  }
+
+  .Counter {
+    color: #ff499e;
+    font-weight: bold;
+  }
+
+  .null,
+  .selected {
+    padding: 10px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 15px;
+  }
+
+  .null {
+    background: #ffffff;
+  }
+
+  .selected {
+    background: #847cdf;
+    color: #ffffff;
+  }
+
+  .NextQuestion_button,
+  .End_button {
+    color: #dae0f2;
+  }
+}
